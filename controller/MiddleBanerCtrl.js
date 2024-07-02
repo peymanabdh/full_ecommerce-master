@@ -1,42 +1,3 @@
-// const MiddleBaner = require("../model/MiddleBaner");
-// const express_async_handler = require("express-async-handler");
-// const getAllMiddleBaners = express_async_handler(async (req, res) => {
-//   try {
-//     const allMiddleBaners = await MiddleBaner.find();
-//     res.status(200).json(allMiddleBaners);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(200).json({
-//       msg: "error",
-//     });
-//   }
-// });
-
-// const newMiddleBaners = express_async_handler(async (req, res) => {
-//   try {
-//     const newMiddleBaners = await MiddleBaner({
-//       image: req.body.image,
-//       imageAlt: req.body.imageAlt,
-//       situation: req.body.situation,
-//       link: req.body.link,
-//       date: new Date().toLocaleDateString("fa-IR", {
-//         hour: "2-digit",
-//         minute: "2-digit",
-//       }),
-//     });
-//     newMiddleBaners.save();
-//     res.status(200).json({
-//       msg: "بنر ذخیره شد",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(200).json({
-//       msg: "error",
-//     });
-//   }
-// });
-// module.exports.getAllMiddleBaners = getAllMiddleBaners;
-// module.exports.newMiddleBaners = newMiddleBaners;
 const MiddleBaner = require("../model/MiddleBaner");
 const express_async_handler = require("express-async-handler");
 
@@ -79,6 +40,19 @@ class MiddleBanerController {
       res.status(200).json({
         msg: "بنر ذخیره شد",
       });
+    } catch (error) {
+      console.log(error);
+      res.status(200).json({
+        msg: "error",
+      });
+    }
+  }
+  static async getActiveBaners(req, res) {
+    try {
+      const activMidBaners = await MiddleBaner.find({ situation: true }).select(
+        { image: 1, imageAlt: 1, link: 1 }
+      );
+      res.status(200).json(activMidBaners);
     } catch (error) {
       console.log(error);
       res.status(200).json({
