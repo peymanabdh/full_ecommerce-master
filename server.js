@@ -1,7 +1,3 @@
-// import express from 'express';
-// import http from 'http';
-// import mongoDb from './config/mongoDb.js';
-// import OTPService from './helpers/OTPService.js';
 const express = require("express");
 const http = require("http");
 const mongoDb = require("./config/mongoDb.js");
@@ -53,7 +49,6 @@ class Server {
 
   bootstrap() {
     new mongoDb();
-
     //console.log(OTPService.generateOTP());
     //OTPService.sendOTP("09194462348",OTPService.generateOTP())
     const server = http.createServer(this.app);

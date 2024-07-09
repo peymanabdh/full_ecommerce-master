@@ -4,8 +4,8 @@ const express_async_handler = require("express-async-handler");
 class MiddleBanerController {
   static async getAllMiddleBaners(req, res) {
     try {
-      if (req.query.page) {
-        const paginate = 2;
+      if (req.query.page && req.query.paginatenumber) {
+        const paginate = req.query.paginatenumber;
         const pageNumber = req.query.page;
         const GoaleMiddleBaners = await MiddleBaner.find()
           .sort({ _id: -1 })
