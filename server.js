@@ -13,17 +13,18 @@ const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-
 // const swaggerDocument = require('./utils/swagger.json');
 
 class Server {
   constructor() {
-    this.app = express();
-    this.middlewares();
-    this.routes();
-    this.bootstrap();
+    if (!Server.__instance) {
+      this.app = express();
+      this.middlewares();
+      this.routes();
+      this.bootstrap();
+    }
+    return Server.__instance;
   }
-
   middlewares() {
     this.app.use(express.json());
     this.app.use(bodyParser.json({ limit: "50mb" }));
@@ -48,16 +49,20 @@ class Server {
   }
 
   bootstrap() {
-    new mongoDb();
+    const instance = new mongoDb();
+    Object.freeze(instance);
     //console.log(OTPService.generateOTP());
     //OTPService.sendOTP("09194462348",OTPService.generateOTP())
     const server = http.createServer(this.app);
     const port = process.env.PORT || 5000;
-    //server.listen(PORT, console.log(`server is runnig on ${PORT}`));
     server.listen(port, () => {
       console.log(`app is running on port ${port}`);
     });
   }
 }
 
-module.exports = new Server().app;
+// module.exports = Server();
+const __instance = new Server();
+Object.freeze(__instance);
+
+module.exports = __instance;
