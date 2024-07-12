@@ -13,7 +13,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-// const swaggerDocument = require('./utils/swagger.json');
+const swaggerDocument = require('./utils/swagger.json');
 
 class Server {
   constructor() {
