@@ -14,7 +14,7 @@ class PostController {
           .limit(paginate);
         res.status(200).json(GoalePosts);
       } else {
-        const allPosts = await Post.find();
+        const allPosts = await Post.find().sort({ _id: -1 });
         res.status(200).json(allPosts);
       }
     } catch (error) {
@@ -75,9 +75,42 @@ class PostController {
       });
     }
   }
-  static async getOnePost(req, res) {
+
+  static async getArchiveBlog(req, res) {
+    try {
+      if (req.query.page && req.query.paginatenumber) {
+        const paginate = req.query.paginatenumber;
+        const pageNumber = req.query.page;
+        const GoalePosts = await Post.find({ published: true })
+          .sort({ _id: -1 })
+          .skip((pageNumber - 1) * paginate)
+          .limit(paginate)
+          .select({
+            title: 1,
+            slug: 1,
+            image: 1,
+          });
+        const AllPostslength = await Post.find().length;
+        res.status(200).json({ GoalePosts, AllPostslength });
+      } else {
+        const allPosts = await Post.find().sort({ _id: -1 });
+        res.status(200).json(allPosts);
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(200).json({
+        msg: "error on get archive posts",
+      });
+    }
+  }
+
+  static getOnePost = express_async_handler(async (req, res) => {
     try {
       const getGoalPost = await Post.findOne({ slug: req.params.slug });
+
+      if (!getGoalPost) {
+        return res.status(404).json({ msg: "Post not found" });
+      }
       const newPost = {
         postView: getGoalPost.postView + 1,
       };
@@ -91,11 +124,30 @@ class PostController {
         msg: "error on get post",
       });
     }
-  }
+  });
+
+  // static async getOnePost(req, res) {
+  //   try {
+  //     const getGoalPost = await Post.findOne({ slug: req.params.slug });
+  //     const newPost = {
+  //       postView: getGoalPost.postView + 1,
+  //     };
+  //     await Post.findByIdAndUpdate(getGoalPost._id, newPost, {
+  //       new: true,
+  //     });
+  //     res.status(200).json(getGoalPost);
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(400).json({
+  //       msg: "error on get post",
+  //     });
+  //   }
+  // }
+
   static async getNewposts(req, res) {
     try {
-      const newPosts = await Post.find()
-        .sort({ createAt: -1 }) // Sort by creation date in descending order
+      const newPosts = await Post.find() //{published:true}
+        .sort({ createAt: -1 }) // Sort by creation date in descending order ={ createAt: -1 } | {_id :-l}
         .limit(4) // Limit to the 4 newest posts
         .select({
           title: 1,

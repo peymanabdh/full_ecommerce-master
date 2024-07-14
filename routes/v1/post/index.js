@@ -2,6 +2,8 @@ const express = require("express");
 const postRouter = express.Router();
 const postController = require("../../../controller/postCtrl");
 
+
+postRouter.get("/get-archive-blog", postController.getArchiveBlog);
 postRouter.get("/", postController.getAllPosts);
 postRouter.post("/new-post", postController.newPost);
 postRouter.post("/update-post/:id", postController.updatePost);
@@ -10,5 +12,6 @@ postRouter.get("/get-new-posts", postController.getNewposts);
 postRouter.get("/get-most-viewed-posts", postController.getMostViewedPosts);
 postRouter.post("/get-related-posts", postController.getRelatedPosts);
 postRouter.get("/:slug", postController.getOnePost);
+
 
 module.exports = postRouter;
