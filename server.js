@@ -66,3 +66,7 @@ const __instance = new Server();
 Object.freeze(__instance);
 
 module.exports = __instance;
+
+
+git config --global user.email "peyman.abd.rahmani@gmail.com"
+git config --global user.name "peymanrahmani"
