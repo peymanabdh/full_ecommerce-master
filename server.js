@@ -12,8 +12,9 @@ const xssCleaner = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
+const swagger = require("./helpers/swagger.json");
 require("dotenv").config();
-// const swaggerDocument = require('./utils/swagger.json');
+// const swagger = require("./helpers/swagger.json");
 
 class Server {
   constructor() {
