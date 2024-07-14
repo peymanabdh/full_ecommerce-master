@@ -13,7 +13,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const swaggerDocument = require('./utils/swagger.json');
+const swaggerDocument = require('./helpers/swagger.json');
 
 class Server {
   constructor() {
@@ -66,7 +66,3 @@ const __instance = new Server();
 Object.freeze(__instance);
 
 module.exports = __instance;
-
-
-git config --global user.email "peyman.abd.rahmani@gmail.com"
-git config --global user.name "peymanrahmani"

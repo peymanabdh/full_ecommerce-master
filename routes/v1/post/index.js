@@ -7,6 +7,8 @@ postRouter.post("/new-post", postController.newPost);
 postRouter.post("/update-post/:id", postController.updatePost);
 postRouter.post("/delete-post/:id", postController.deletePost);
 postRouter.get("/get-new-posts", postController.getNewposts);
+postRouter.get("/get-most-viewed-posts", postController.getMostViewedPosts);
+postRouter.post("/get-related-posts", postController.getRelatedPosts);
 postRouter.get("/:slug", postController.getOnePost);
 
 module.exports = postRouter;

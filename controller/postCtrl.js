@@ -110,6 +110,41 @@ class PostController {
       });
     }
   }
+  static async getMostViewedPosts(req, res) {
+    try {
+      const mostviewPosts = await Post.find({published:true})
+        .sort({ postView: -1 }) 
+        .limit(2)
+        .select({
+          title: 1,
+          slug: 1,
+          image: 1,
+          postView:1
+        });
+      res.status(200).json(mostviewPosts);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        msg: "error on get most view posts",
+      });
+    }
+  }
+  static async getRelatedPosts(req, res) {
+    try {
+      const relPosts = await Post.find({published:true,relatedPosts:req.body.relIDs})
+        .select({
+          title: 1,
+          slug: 1,
+          image: 1,
+        });
+      res.status(200).json(relPosts);
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({
+        msg: "error on get related posts",
+      });
+    }
+  }
 }
 
 module.exports = PostController;
